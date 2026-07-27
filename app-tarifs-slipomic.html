@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Reno & Montage — Tarifs</title>
+<!-- v2 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#1B1B1D;
+    --steel:#3A3A3C;
+    --steel-light:#8C8C88;
+    --paper:#F2F0EA;
+    --orange:#FF6A13;
+    --line:#DAD8D0;
+    --green:#2E7D46;
+  }
+  *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    background:var(--charcoal);
+    font-family:'Inter', sans-serif;
+    color:var(--charcoal);
+    display:flex;
+    justify-content:center;
+  }
+  .app{
+    width:100%;
+    max-width:520px;
+    min-height:100vh;
+    background:var(--paper);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+
+  .hazard{
+    height:10px;
+    width:100%;
+    background:repeating-linear-gradient(45deg, var(--orange) 0 14px, var(--charcoal) 14px 28px);
+    flex-shrink:0;
+  }
+
+  header{
+    padding:20px 20px 14px;
+    border-bottom:3px solid var(--charcoal);
+    flex-shrink:0;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--steel-light);
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    text-transform:uppercase;
+    line-height:1;
+  }
+  h1 span{color:var(--orange);}
+
+  /* Tabs */
+  .tabs{
+    display:flex;
+    background:var(--charcoal);
+    flex-shrink:0;
+    overflow-x:auto;
+  }
+  .tab{
+    flex:1;
+    padding:13px 6px;
+    text-align:center;
+    font-family:'Oswald', sans-serif;
+    font-size:12px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:#8C8C88;
+    background:none;
+    border:none;
+    cursor:pointer;
+    white-space:nowrap;
+    border-bottom:3px solid transparent;
+  }
+  .tab.active{
+    color:var(--paper);
+    border-bottom-color:var(--orange);
+  }
+
+  main{
+    flex:1;
+    overflow-y:auto;
+    padding:10px 20px 130px;
+  }
+
+  .section-label{
+    font-family:'Oswald', sans-serif;
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--orange);
+    padding:18px 0 8px;
+  }
+  .section-label:first-child{padding-top:14px;}
+
+  .row{
+    display:grid;
+    grid-template-columns:1fr auto auto;
+    align-items:center;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .item-name{
+    font-weight:600;
+    font-size:14px;
+  }
+  .item-note{
+    display:block;
+    font-size:11px;
+    color:var(--steel-light);
+    font-weight:400;
+    margin-top:1px;
+  }
+  .price-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:13px;
+    text-align:right;
+    white-space:nowrap;
+    min-width:66px;
+  }
+
+  .stepper{
+    display:flex;
+    align-items:center;
+    gap:0;
+    border:2px solid var(--charcoal);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .stepper button{
+    width:28px;
+    height:28px;
+    background:var(--charcoal);
+    color:var(--orange);
+    border:none;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    line-height:1;
+  }
+  .stepper button:active{background:var(--orange); color:var(--charcoal);}
+  .stepper .qty{
+    width:30px;
+    text-align:center;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:13px;
+    background:var(--paper);
+  }
+
+  .m2-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .m2-input{
+    width:64px;
+    padding:6px 4px;
+    text-align:center;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:13px;
+    border:2px solid var(--charcoal);
+    border-radius:3px;
+    background:var(--paper);
+    color:var(--charcoal);
+  }
+
+  .conditions{
+    background:var(--charcoal);
+    color:var(--paper);
+    padding:16px 18px;
+    margin-top:14px;
+    border-radius:4px;
+  }
+  .conditions h2{
+    font-family:'Oswald', sans-serif;
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--orange);
+    margin-bottom:8px;
+  }
+  .conditions ul{list-style:none; font-family:'JetBrains Mono', monospace; font-size:11px; line-height:1.8; color:#D8D6CF;}
+  .conditions li::before{content:"▸ "; color:var(--orange);}
+
+  /* Sticky total bar */
+  .totalbar{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    max-width:520px;
+    background:var(--charcoal);
+    color:var(--paper);
+    padding:14px 20px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-top:3px solid var(--orange);
+  }
+  .totalbar .label{
+    font-family:'Oswald', sans-serif;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--steel-light);
+  }
+  .totalbar .amount{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:24px;
+    color:var(--orange);
+  }
+  .totalbar .reset{
+    background:none;
+    border:1px solid var(--steel);
+    color:var(--steel-light);
+    font-family:'Inter';
+    font-size:11px;
+    padding:6px 10px;
+    border-radius:3px;
+    cursor:pointer;
+  }
+  .count-badge{
+    font-size:11px;
+    color:var(--steel-light);
+    margin-top:2px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hazard"></div>
+  <header>
+    <div class="eyebrow">Main d'œuvre seule · matériel non inclus</div>
+    <h1>Reno & <span>Montage</span></h1>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+
+  <main id="main"></main>
+
+  <div class="totalbar">
+    <div>
+      <div class="label">Total estimé</div>
+      <div class="count-badge" id="countBadge">0 ligne sélectionnée</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div class="amount" id="totalAmount">0 €</div>
+      <button class="reset" id="resetBtn">Réinit.</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {
+  montage: {
+    label: "Montage",
+    sections: [
+      {
+        title: "Petit mobilier",
+        items: [
+          {id:"m2", name:"Chaise", note:"à l'unité", min:10, max:15},
+          {id:"m3", name:"Table basse", min:30, max:30},
+        ]
+      },
+      {
+        title: "Rangement & couchage",
+        items: [
+          {id:"m5a", name:"Meuble TV", min:50, max:50},
+          {id:"m5b", name:"Commode", min:50, max:50},
+          {id:"m7", name:"Armoire 2 portes", min:60, max:60},
+          {id:"m8", name:"Armoire 3 portes", note:"grande capacité", min:90, max:90},
+          {id:"m9", name:"Lit simple", note:"sommier + tête de lit", min:60, max:60},
+          {id:"m10", name:"Lit avec rangements", min:100, max:100},
+          {id:"m11", name:"Dressing", min:150, max:150},
+        ]
+      },
+      {
+        title: "Cuisine",
+        items: [
+          {id:"m12", name:"Élément de cuisine", note:"meuble bas/haut, unité", min:30, max:50},
+          {id:"m13", name:"Cuisine complète", note:"installation intégrale", min:300, max:800},
+        ]
+      }
+    ]
+  },
+  demontage: {
+    label: "Démontage",
+    sections: [
+      {
+        title: "Tarif ≈ 50% du montage",
+        items: [
+          {id:"d2", name:"Chaise", note:"à l'unité", min:5, max:8},
+          {id:"d3", name:"Table basse / d'appoint", min:10, max:18},
+          {id:"d5a", name:"Meuble TV", min:25, max:25},
+          {id:"d5b", name:"Commode", min:35, max:35},
+          {id:"d7", name:"Armoire 2 portes", min:25, max:35},
+          {id:"d8", name:"Armoire 3 portes", min:25, max:35},
+          {id:"d9", name:"Lit simple", min:20, max:30},
+          {id:"d10", name:"Lit avec rangements", min:35, max:50},
+        ]
+      }
+    ]
+  },
+  peintInt: {
+    label: "Peinture Int.",
+    unit: "m²",
+    sections: [
+      {
+        title: "Surfaces (par m²)",
+        items: [
+          {id:"pi1", name:"Plafond", min:15, max:18, per:"m²"},
+          {id:"pi2", name:"Mur — 1 couche simple", min:10, max:12, per:"m²"},
+          {id:"pi3", name:"Mur — avec préparation", note:"rebouchage, ponçage", min:12, max:15, per:"m²"},
+        ]
+      },
+      {
+        title: "Éléments (à l'unité)",
+        items: [
+          {id:"pi4a", name:"Porte", note:"2 faces", min:30, max:50},
+          {id:"pi5", name:"Radiateur", min:40, max:60},
+        ]
+      }
+    ]
+  },
+};
+
+let activeTab = "montage";
+let qty = {}; // itemId -> quantity or m2 value
+
+function avg(min, max){ return (min+max)/2; }
+
+function renderTabs(){
+  const tabsEl = document.getElementById("tabs");
+  tabsEl.innerHTML = "";
+  Object.keys(DATA).forEach(key => {
+    const btn = document.createElement("button");
+    btn.className = "tab" + (key === activeTab ? " active" : "");
+    btn.textContent = DATA[key].label;
+    btn.onclick = () => { activeTab = key; render(); };
+    tabsEl.appendChild(btn);
+  });
+}
+
+function change(id, delta, isM2){
+  const current = qty[id] || 0;
+  let next = current + delta;
+  if(next < 0) next = 0;
+  qty[id] = next;
+  render();
+}
+
+function setM2(id, val){
+  let n = parseFloat(val);
+  if(isNaN(n) || n < 0) n = 0;
+  qty[id] = n;
+  render();
+}
+
+function renderMain(){
+  const main = document.getElementById("main");
+  main.innerHTML = "";
+  const cat = DATA[activeTab];
+
+  cat.sections.forEach(section => {
+    const label = document.createElement("div");
+    label.className = "section-label";
+    label.textContent = section.title;
+    main.appendChild(label);
+
+    section.items.forEach(item => {
+      const q = qty[item.id] || 0;
+      const avgPrice = avg(item.min, item.max);
+
+      if(item.per === "m²"){
+        const row = document.createElement("div");
+        row.className = "m2-row";
+        row.innerHTML = `
+          <div style="flex:1;">
+            <div class="item-name">${item.name}</div>
+            ${item.note ? `<span class="item-note">${item.note}</span>` : ""}
+            <div class="item-note">${item.min}–${item.max} €/m²</div>
+          </div>
+          <input class="m2-input" type="number" min="0" step="1" placeholder="m²" value="${q>0?q:''}" />
+        `;
+        const input = row.querySelector("input");
+        input.oninput = (e) => setM2(item.id, e.target.value);
+        main.appendChild(row);
+      } else {
+        const row = document.createElement("div");
+        row.className = "row";
+        row.innerHTML = `
+          <div>
+            <div class="item-name">${item.name}</div>
+            ${item.note ? `<span class="item-note">${item.note}</span>` : ""}
+          </div>
+          <div class="price-tag">${item.min === item.max ? item.min + " €" : item.min + "–" + item.max + " €"}</div>
+          <div class="stepper">
+            <button data-act="minus">−</button>
+            <div class="qty">${q}</div>
+            <button data-act="plus">+</button>
+          </div>
+        `;
+        row.querySelector('[data-act="minus"]').onclick = () => change(item.id, -1);
+        row.querySelector('[data-act="plus"]').onclick = () => change(item.id, 1);
+        main.appendChild(row);
+      }
+    });
+  });
+
+  const cond = document.createElement("div");
+  cond.className = "conditions";
+  cond.innerHTML = `
+    <h2>Conditions</h2>
+    <ul>
+      <li>Fournitures à la charge du client</li>
+      <li>Forfait minimum d'intervention : 50 €</li>
+      <li>Taux horaire complément : 25–40 €/h</li>
+      <li>Devis gratuit sur place</li>
+    </ul>
+  `;
+  main.appendChild(cond);
+}
+
+function renderTotal(){
+  let total = 0;
+  let count = 0;
+  Object.keys(DATA).forEach(catKey => {
+    DATA[catKey].sections.forEach(section => {
+      section.items.forEach(item => {
+        const q = qty[item.id] || 0;
+        if(q > 0){
+          total += avg(item.min, item.max) * q;
+          count += 1;
+        }
+      });
+    });
+  });
+  document.getElementById("totalAmount").textContent = Math.round(total) + " €";
+  document.getElementById("countBadge").textContent = count === 0
+    ? "0 ligne sélectionnée"
+    : count + " ligne" + (count>1?"s":"") + " sélectionnée" + (count>1?"s":"");
+}
+
+function render(){
+  renderTabs();
+  renderMain();
+  renderTotal();
+}
+
+document.getElementById("resetBtn").onclick = () => { qty = {}; render(); };
+
+render();
+</script>
+</body>
+</html>
